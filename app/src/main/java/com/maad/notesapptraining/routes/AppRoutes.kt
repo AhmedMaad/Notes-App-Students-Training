@@ -28,15 +28,20 @@ fun AppNavHost() {
         //According to the docs: You cannot pass complex data using parcelable
         //https://developer.android.com/guide/navigation/use-graph/pass-data
         composable(
-            route = "$EDIT_NOTE/{id}/{details}",
+            route = "$EDIT_NOTE/{id}/{details}?title={title}",
             arguments = listOf(
                 navArgument("id") { type = NavType.IntType},
-                navArgument("details") { type = NavType.StringType}
+                navArgument("details") { type = NavType.StringType},
+                navArgument("title") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
             )
         ) {
             val id = it.arguments?.getInt("id")!!
             val details = it.arguments?.getString("details")!!
-            EditingNoteScreen(id, details, navController = navController)
+            val title = it.arguments?.getString("title")!!
+            EditingNoteScreen(id, details, title, navController = navController)
         }
 
     }

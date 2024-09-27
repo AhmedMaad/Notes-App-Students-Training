@@ -1,5 +1,6 @@
 package com.maad.notesapptraining
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -60,7 +61,10 @@ fun HomeScreen(
         LazyColumn(modifier = modifier.padding(innerPadding)) {
             items(notes) { note ->
                 NoteListItem(note = note) {
-                    navController.navigate("$EDIT_NOTE/${note.id}/${note.noteDetails}")
+                    if (note.noteTitle.isBlank())
+                        navController.navigate("$EDIT_NOTE/${note.id}/${note.noteDetails}")
+                    else
+                        navController.navigate("$EDIT_NOTE/${note.id}/${note.noteDetails}?title=${note.noteTitle}")
                 }
             }
         }
@@ -77,6 +81,14 @@ fun NoteListItem(note: Note, modifier: Modifier = Modifier, onNavigate: () -> Un
             .clickable { onNavigate() }
     ) {
         Text(
+            text = note.noteTitle,
+            fontSize = 28.sp,
+            color = Color.Black,
+            textAlign = TextAlign.Center,
+            modifier = modifier
+                .padding(8.dp)
+        )
+        Text(
             text = note.noteDetails,
             fontSize = 20.sp,
             color = Color.DarkGray,
@@ -84,7 +96,6 @@ fun NoteListItem(note: Note, modifier: Modifier = Modifier, onNavigate: () -> Un
             modifier = modifier
                 .padding(8.dp)
                 .defaultMinSize(minHeight = 80.dp)
-                .wrapContentHeight(Alignment.CenterVertically)
         )
     }
 }
@@ -92,5 +103,11 @@ fun NoteListItem(note: Note, modifier: Modifier = Modifier, onNavigate: () -> Un
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    //NoteListItem(note = Note(5, "Hello this is a test note"))
+    NoteListItem(
+        note = Note(
+            5,
+            "Hello this is a test note",
+            noteTitle = "Hello from our migration"
+        )
+    ) {}
 }

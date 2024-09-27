@@ -26,6 +26,7 @@ import com.maad.notesapptraining.ui.NoteViewModel
 fun EditingNoteScreen(
     id: Int,
     noteDetails: String,
+    noteTitle: String,
     modifier: Modifier = Modifier,
     navController: NavController,
     viewModel: NoteViewModel = viewModel()
@@ -35,8 +36,17 @@ fun EditingNoteScreen(
             .fillMaxSize()
             .padding(top = 32.dp, start = 16.dp, end = 16.dp)
     ) {
+        var title by remember { mutableStateOf(noteTitle) }
         var details by remember { mutableStateOf(noteDetails) }
 
+        OutlinedTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = {
+                Text(text = "Note Title")
+            },
+            modifier = modifier.fillMaxWidth()
+        )
         OutlinedTextField(
             value = details,
             onValueChange = { details = it },
@@ -52,7 +62,7 @@ fun EditingNoteScreen(
         ) {
             OutlinedButton(
                 onClick = {
-                    viewModel.upsertNote(Note(id, details))
+                    viewModel.upsertNote(Note(id, details, title))
                     navController.popBackStack()
                 },
                 modifier = modifier
@@ -63,7 +73,7 @@ fun EditingNoteScreen(
             }
             OutlinedButton(
                 onClick = {
-                    viewModel.deleteNote(Note(id, noteDetails))
+                    viewModel.deleteNote(Note(id, noteDetails, noteTitle))
                     navController.popBackStack()
                 },
                 modifier = modifier
@@ -79,5 +89,10 @@ fun EditingNoteScreen(
 @Preview(showBackground = true)
 @Composable
 private fun EditingNoteScreenPreview() {
-    EditingNoteScreen(id = 2, noteDetails = "test details", navController = rememberNavController())
+    EditingNoteScreen(
+        id = 2,
+        noteDetails = "test details",
+        noteTitle = "test Title",
+        navController = rememberNavController()
+    )
 }

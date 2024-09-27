@@ -39,7 +39,16 @@ fun AddingNoteScreen(
 
         val context = LocalContext.current
         var details by remember { mutableStateOf("") }
+        var title by remember { mutableStateOf("") }
 
+        OutlinedTextField(
+            value = title,
+            onValueChange = { title = it },
+            label = {
+                Text(text = "Note Title")
+            },
+            modifier = modifier.fillMaxWidth()
+        )
         OutlinedTextField(
             value = details,
             onValueChange = { details = it },
@@ -51,9 +60,10 @@ fun AddingNoteScreen(
 
         OutlinedButton(
             onClick = {
-                viewModel.upsertNote(Note(noteDetails = details))
+                viewModel.upsertNote(Note(noteDetails = details, noteTitle = title))
                 Toast.makeText(context, "Saved!", Toast.LENGTH_LONG).show()
                 details = ""
+                title = ""
             },
             modifier = modifier
                 .align(Alignment.CenterHorizontally)
