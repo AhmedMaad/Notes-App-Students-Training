@@ -27,6 +27,7 @@ fun AppNavHost() {
         composable(route = ADD_NOTE) { AddingNoteScreen(navController = navController) }
         //According to the docs: You cannot pass complex data using parcelable
         //https://developer.android.com/guide/navigation/use-graph/pass-data
+
         composable(
             route = "$EDIT_NOTE/{id}/{details}?title={title}",
             arguments = listOf(

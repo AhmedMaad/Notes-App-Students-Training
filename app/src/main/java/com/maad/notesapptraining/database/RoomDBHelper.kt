@@ -25,7 +25,6 @@ abstract class RoomDBHelper : RoomDatabase() {
 
                 val instance = Room
                     .databaseBuilder(context, RoomDBHelper::class.java, "DB")
-                    .allowMainThreadQueries()
                     .build()
 
                 INSTANCE = instance
